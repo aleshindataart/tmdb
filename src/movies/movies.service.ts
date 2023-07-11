@@ -25,7 +25,18 @@ export class MoviesService {
     const movieDocuments = movies.map(movie => ({
       title: movie.title,
       releaseDate: movie.release_date,
-      overview: movie.overview
+      overview: movie.overview,
+      adult: movie.adult,
+      backdropPath: movie.backdropPath,
+      genre_ids: movie.genre_ids,
+      id: movie.id,
+      original_language: movie.original_language,
+      original_title: movie.original_title,
+      popularity: movie.popularity,
+      poster_path: movie.poster_path,
+      video: movie.video,
+      vote_average: movie.vote_average,
+      vote_count: movie.vote_count
     }))
 
     await this.movieModel.deleteMany({})
