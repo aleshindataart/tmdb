@@ -15,4 +15,9 @@ export class MoviesController {
   async getMovies(): Promise<Movie[]> {
     return this.moviesService.getMovies()
   }
+
+  @Get('remove')
+  async removeMovies(): Promise<void> {
+    await this.moviesService.removeMovies()
+  }
 }

@@ -4,6 +4,7 @@ import { Model } from 'mongoose'
 import axios from 'axios'
 import { Movie, MovieDocument } from './movie.model'
 import * as dotenv from 'dotenv'
+import { Cron, CronExpression } from '@nestjs/schedule'
 
 dotenv.config()
 
@@ -12,6 +13,8 @@ export class MoviesService {
   constructor(
     @InjectModel(Movie.name) private movieModel: Model<MovieDocument>
   ) {}
+
+  // private readonly logger = new Logger(MoviesService.name)
 
   private readonly apiKey = process.env.API_KEY
   private readonly apiUrlPopular = process.env.API_URL_POPULAR
@@ -43,7 +46,18 @@ export class MoviesService {
     await this.movieModel.insertMany(movieDocuments)
   }
 
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async getMovies(): Promise<Movie[]> {
     return this.movieModel.find().exec()
+  }
+
+  async removeMovies(): Promise<void> {
+    await this.movieModel.deleteMany({})
+  }
+
+  @Cron('45 * * * * *')
+  handleCron() {
+    console.log('Called when the current second is 45')
+    // this.logger.debug('Called when the current second is 45')
   }
 }
